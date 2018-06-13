@@ -13,4 +13,9 @@ body, html {
 button {
 	display: block;
 	width: 100%;
+	color: gray;
+}
+
+.btnGray {
+	color: gray;
 }
