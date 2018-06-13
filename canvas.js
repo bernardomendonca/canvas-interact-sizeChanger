@@ -63,18 +63,18 @@ window.addEventListener('mousemove', function(event){
 });
 
 
-// Generating Random Color, in a gray(ish)scale
-function randomColor(){
-	//pick a "red" from 0 to 100
-	var r = Math.floor(Math.random() * 100);
-	//pick a "green" from 0 to 100
-	var g = Math.floor(Math.random() * 100);
-	//pick a "blue" from 0 to 100
-	var b = Math.floor(Math.random() * 100);
-	// Using weights to guarantee the gray(ish)scale
-	"rgb(r, g, b)"
-	return "rgb(" + (r)*0.3 + ", " + (g)*0.59 + ", " + (b)*0.11 + ")";
-}
+// // Generating Random Color, in a gray(ish)scale
+// function randomColor(){
+// 	//pick a "red" from 0 to 100
+// 	var r = Math.floor(Math.random() * 100);
+// 	//pick a "green" from 0 to 100
+// 	var g = Math.floor(Math.random() * 100);
+// 	//pick a "blue" from 0 to 100
+// 	var b = Math.floor(Math.random() * 100);
+// 	// Using weights to guarantee the gray(ish)scale
+// 	"rgb(r, g, b)"
+// 	return "rgb(" + (r)*0.3 + ", " + (g)*0.59 + ", " + (b)*0.11 + ")";
+// }
 
 function Circle(x, y, dx, dy, radius){
 	this.x = x;
@@ -82,6 +82,7 @@ function Circle(x, y, dx, dy, radius){
 	this.dx = dx;
 	this.dy = dy;
 	this.radius = radius;
+	this.minRadius = radius;
 	this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
 	this.draw = function () {
@@ -89,8 +90,8 @@ function Circle(x, y, dx, dy, radius){
 		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 		c.fillStyle = this.color;
 		c.fill();	
-		c.stroke();
-		c.strokeStyle = "steelBlue";
+		// c.stroke();
+		// c.strokeStyle = "steelBlue";
 	}
 
 	this.update = function() {
@@ -113,10 +114,9 @@ function Circle(x, y, dx, dy, radius){
 				if (this.radius < maxRadius) {
 					this.radius += 1;				
 				}
-		} else if (this.radius > minRadius) {
+		} else if (this.radius > this.minRadius) {
 			this.radius -= 1;
 		}
-
 		// Calling the draw function:	
 		this.draw();
 	}
@@ -125,13 +125,12 @@ function Circle(x, y, dx, dy, radius){
 var circleArray = [];
 
 for (var i = 0; i < 100; i++) {
-	var radius = 30;
+	var radius = Math.random() * 3 + 1;
 	// To make sure that the circles wont be stuck in the borders:
 	var x = Math.random() * (innerWidth - radius * 2) + radius;
 	var y = Math.random() * (innerHeight - radius * 2) + radius;
 	var dx = (Math.random() - 0.5) * 3;
 	var dy = (Math.random() - 0.5) * 3;
-	var Color = randomColor();	
 	circleArray.push(new Circle(x, y, dx, dy, radius));
 }
 
