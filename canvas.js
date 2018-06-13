@@ -38,16 +38,28 @@ var c = canvas.getContext('2d');
 // 	c.stroke();
 // };
 
+
+// Creating the MOUSE object, with X and Y coordinates
 var mouse = {
 	x: undefined,
 	y: undefined
 };
 
+var maxRadius = 40;
+var minRadius = 2;
+
+var colorArray = [
+	'#f6f6f6',
+	'#a2a2a2',
+	'#g2g2g2',
+	'#e1e1e1',
+	'#b5b5b5'
+];
 
 window.addEventListener('mousemove', function(event){
+	// Extracting the mouse coordinates
 	mouse.x = event.x;
 	mouse.y = event.y;
-	console.log(mouse);
 });
 
 
@@ -70,11 +82,12 @@ function Circle(x, y, dx, dy, radius){
 	this.dx = dx;
 	this.dy = dy;
 	this.radius = radius;
+	this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
 	this.draw = function () {
 		c.beginPath();
 		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-		c.fillStyle = Color;
+		c.fillStyle = this.color;
 		c.fill();	
 		c.stroke();
 		c.strokeStyle = "steelBlue";
@@ -93,6 +106,17 @@ function Circle(x, y, dx, dy, radius){
 		// Velocity -> speed that something moves in a particular direction
 		this.x += this.dx;
 		this.y += this.dy;
+
+		// Interacting:
+		// Picking everything that is within 50px from the cursor
+		if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
+				if (this.radius < maxRadius) {
+					this.radius += 1;				
+				}
+		} else if (this.radius > minRadius) {
+			this.radius -= 1;
+		}
+
 		// Calling the draw function:	
 		this.draw();
 	}
